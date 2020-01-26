@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import api from './services/api';
 import './App.css';
 
 function App() {
-  const [cpf, setCpf] = useState('');
+  const [nome, setNome] = useState('');
   async function handleSubmit(event){
     //Prevenir o funcionamento padrão do formulário    
     event.preventDefault(); 
-    console.log(cpf);
+    console.log(nome);
 
-    const response = await api.post('/sessions', { cpf });
+    localStorage.setItem('nome', nome);
+    //const response = await api.post('/sessions', { cpf });
   }
 
   return (
@@ -19,20 +19,15 @@ function App() {
           Teste de <strong>Aplicativo</strong>.
         </p>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="cpf">CPF *</label>
+          <label htmlFor="nome">Nome *</label>
           <input 
             type="text" 
-            id="cpf" 
-            placeholder="digite seu CPF"
-            value={cpf}
-            onChange={event => setCpf(event.target.value)}
+            id="nome" 
+            placeholder="Digite seu nome"
+            value={nome}
+            onChange={event => setNome(event.target.value)}
           />
-          <label htmlFor="senha">SENHA *</label>
-          <input 
-            type="password" 
-            id="senha" 
-            placeholder="digite sua senha"
-          />          
+  
           <button className="btn" type="submit">Entrar</button>
         </form>
       </div>
