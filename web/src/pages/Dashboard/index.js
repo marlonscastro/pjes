@@ -2,12 +2,26 @@ import React, { useState, useEffect } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Dashboard() {
+export default function Dashboard({ history }) {
     const [nome, setNome] = useState('');
+    let count = 0;
+    /** Array inicial para apenas 2 cotas - exemplo */
+    const lista = [{
+        matricula: 1137204,
+        nome: "Marlon"
+    },{
+        matricula: 1083456,
+        nome: "Thiago"
+    }];
 
     useEffect(() => {
-        setNome(localStorage.getItem('nome'));
-    }, []);
+        let nome = localStorage.getItem('nome');
+        if(nome){
+            setNome(localStorage.getItem('nome'));
+            count++;
+        }
+        else history.push('/');
+    }, [history]);
 
     function handleBtn(e, id) {
 
@@ -18,10 +32,8 @@ export default function Dashboard() {
             btn.innerText = "Ocup";
         }
         else {
-            if(td === nome){            
-                btn.innerText = "Livre";
-                td.innerHTML = "";
-            }
+            btn.innerText = "Livre";
+            td.innerHTML = "";
         }
     }
 
@@ -38,7 +50,19 @@ export default function Dashboard() {
                     </th>
                 </thead>
                 <tbody>
-                    <tr>
+                    {lista.map(nome => {
+                        count++;
+                        return (
+                            <tr>
+                                <td id={`cota`+count}>{nome.nome}</td>
+                                <td>
+                                    <button id={`btncota`+count} onClick={e => handleBtn(e, "cota"+count)}>Livre</button>
+                                </td>
+                            </tr>                  
+                        )}
+                    )}
+                   
+{/*                     <tr>
                         <td id="cota1"></td>
                         <td>
                             <button id="btncota1" onClick={e => handleBtn(e, "cota1")}>Livre</button>
@@ -49,7 +73,7 @@ export default function Dashboard() {
                         <td>
                             <button id="btncota2" onClick={e => handleBtn(e, "cota2")}>Livre</button>
                         </td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </table>
         </>
