@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,6 +16,11 @@ export default function Dashboard({ history }) {
     }];
 
     useEffect(() => {
+ 
+
+        var database = firebase.database();
+        database.ref('nome').set('Castro');  
+          
         let nome = localStorage.getItem('nome');
         if(nome){
             setNome(localStorage.getItem('nome'));
